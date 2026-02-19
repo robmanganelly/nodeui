@@ -73,7 +73,7 @@
       "@ui/tooltip": ["libs/ui/tooltip/src/index.ts"],
       "@ui/typography": ["libs/ui/typography/src/index.ts"],
       "@ui/utils": ["libs/ui/utils/src/index.ts"],
-      "@nodeui/blocks": ["libs/blocks/src/index.ts"]
+      "@blocks": ["libs/blocks/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

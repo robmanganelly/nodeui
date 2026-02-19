@@ -2,7 +2,7 @@
   "name": "blocks",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "libs/blocks/src",
-  "prefix": "lib",
+  "prefix": "spartan",
   "projectType": "library",
   "tags": ["ui-blocks"],
   "targets": {
