@@ -1,0 +1,9 @@
+{
+  "name": "nodeui-e2e",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "sourceRoot": "apps/nodeui-e2e/src",
+  "implicitDependencies": ["nodeui"],
+  "// targets": "to see all targets run: nx show project nodeui-e2e --web",
+  "targets": {}
+}
