@@ -3,9 +3,10 @@ import { CustomNodeComponent, Node, Vflow } from 'ngx-vflow';
 
 @Component({
   template: `
-    <div class="transform-node" selectable [resizable]="selected()">
-      <div class="node-header">
-        <svg class="icon" width="16" height="16" viewBox="0 0 16 16" fill="none">
+    <div class="min-w-60 min-h-80 w-full h-full bg-card border-2 border-amber-500 rounded-lg shadow-sm overflow-hidden flex flex-col"
+      selectable [resizable]="selected()">
+      <div class="flex items-center gap-2 px-3.5 py-3 border-b-2 border-amber-500 text-amber-500">
+        <svg class="shrink-0" width="16" height="16" viewBox="0 0 16 16" fill="none">
           <path
             d="M2 8H8M8 8L5 5M8 8L5 11"
             stroke="currentColor"
@@ -19,15 +20,15 @@ import { CustomNodeComponent, Node, Vflow } from 'ngx-vflow';
             stroke-linecap="round"
             stroke-linejoin="round" />
         </svg>
-        <span class="title">Click to Resize</span>
+        <span class="text-sm font-semibold tracking-tight text-foreground">Click to Resize</span>
       </div>
-      <div class="node-content">
-        <div class="section">
-          <div class="section-label">Input</div>
-          <div class="data-preview">You can attach handle to content inside node</div>
+      <div class="flex-1 px-3.5 py-3 flex flex-col justify-evenly gap-3 bg-card">
+        <div class="p-2.5 bg-black/2 dark:bg-white/3 rounded-md border border-border">
+          <div class="text-[11px] font-semibold text-muted-foreground uppercase tracking-widest mb-1">Input</div>
+          <div class="text-xs text-foreground font-mono">You can attach handle to content inside node</div>
           <handle type="target" position="left" id="input-1" />
         </div>
-        <div class="transform-indicator">
+        <div class="flex items-center justify-center py-2 text-muted-foreground">
           <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
             <path
               d="M6 2V10M6 10L9 7M6 10L3 7"
@@ -37,142 +38,25 @@ import { CustomNodeComponent, Node, Vflow } from 'ngx-vflow';
               stroke-linejoin="round" />
           </svg>
         </div>
-        <div class="section">
-          <div class="section-label">Output</div>
-          <div class="data-preview">You can attach handle to content inside node</div>
+        <div class="p-2.5 bg-black/2 dark:bg-white/3 rounded-md border border-border">
+          <div class="text-[11px] font-semibold text-muted-foreground uppercase tracking-widest mb-1">Output</div>
+          <div class="text-xs text-foreground font-mono">You can attach handle to content inside node</div>
           <handle type="source" position="right" id="output-1" />
         </div>
       </div>
     </div>
 
     <node-toolbar position="top">
-      <div class="toolbar-content">
-        <button class="toolbar-btn" (click)="deleted.emit(node())">Delete</button>
+      <div class="flex gap-1 bg-card border border-border p-1 rounded-md shadow-sm">
+        <button
+          class="flex items-center gap-1 px-2.5 py-1.5 rounded text-xs font-medium text-foreground cursor-pointer transition-colors duration-150 hover:bg-black/5 dark:hover:bg-white/5 active:bg-black/8 dark:active:bg-white/8"
+          (click)="deleted.emit(node())">
+          Delete
+        </button>
       </div>
     </node-toolbar>
   `,
-  styles: [
-    `
-      :host {
-        display: contents;
-      }
-
-      .transform-node {
-        min-width: 240px;
-        min-height: 320px;
-        width: 100%;
-        height: 100%;
-        background: white;
-        border: 2px solid var(--accent-amber);
-        border-radius: 8px;
-        box-shadow:
-          0 1px 3px rgba(0, 0, 0, 0.08),
-          0 1px 2px rgba(0, 0, 0, 0.06);
-        overflow: hidden;
-        display: flex;
-        flex-direction: column;
-      }
-
-      .node-header {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        padding: 12px 14px;
-        background: white;
-        border-bottom: 2px solid var(--accent-amber);
-        color: var(--accent-amber);
-      }
-
-      .icon {
-        flex-shrink: 0;
-      }
-
-      .title {
-        font-size: 14px;
-        font-weight: 600;
-        letter-spacing: -0.01em;
-        color: var(--text-primary);
-      }
-
-      .node-content {
-        flex: 1;
-        padding: 12px 14px;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-evenly;
-        gap: 12px;
-        background: white;
-      }
-
-      .section {
-        padding: 8px 10px;
-        background: rgba(0, 0, 0, 0.02);
-        border-radius: 6px;
-        border: 1px solid var(--node-border);
-      }
-
-      .section-label {
-        font-size: 11px;
-        font-weight: 600;
-        color: var(--text-muted);
-        text-transform: uppercase;
-        letter-spacing: 0.05em;
-        margin-bottom: 4px;
-      }
-
-      .data-preview {
-        font-size: 12px;
-        color: var(--text-primary);
-        font-family: 'Monaco', 'Courier New', monospace;
-      }
-
-      .transform-indicator {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 6px;
-        padding: 8px;
-        color: var(--text-muted);
-        font-size: 11px;
-        font-weight: 500;
-      }
-
-      .transform-text {
-        font-size: 12px;
-      }
-
-      .toolbar-content {
-        display: flex;
-        gap: 4px;
-        background: var(--node-bg);
-        padding: 4px;
-        border-radius: 6px;
-      }
-
-      .toolbar-btn {
-        display: flex;
-        align-items: center;
-        gap: 4px;
-        padding: 6px 10px;
-        background: transparent;
-        border: none;
-        border-radius: 4px;
-        font-size: 12px;
-        font-weight: 500;
-        color: var(--text-primary);
-        cursor: pointer;
-        transition: background 0.15s ease;
-      }
-
-      .toolbar-btn:hover {
-        background: rgba(0, 0, 0, 0.05);
-      }
-
-      .toolbar-btn:active {
-        background: rgba(0, 0, 0, 0.08);
-      }
-    `,
-  ],
+  styles: [':host { display: contents; }'],
   imports: [Vflow],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

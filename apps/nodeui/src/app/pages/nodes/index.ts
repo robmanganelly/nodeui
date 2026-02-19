@@ -1,6 +1,7 @@
 
-import { ChangeDetectionStrategy, Component, effect, inject, untracked, viewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, effect, inject, untracked, viewChild } from '@angular/core';
 import { Vflow, Connection, VflowComponent, Edge, createEdge, ComponentNodeEvent } from 'ngx-vflow';
+import { ThemeService } from '@blocks';
 import { FlowStoreService } from './flow.service';
 import { TransformNodeComponent } from './transform';
 
@@ -9,7 +10,7 @@ import { TransformNodeComponent } from './transform';
     view="auto"
     [nodes]="store.nodes()"
     [edges]="store.edges()"
-    [background]="{ type: 'dots' }"
+    [background]="background()"
     [optimization]="{ detachedGroupsLayer: true }"
     [alignmentHelper]="true"
     (connect)="createEdge($event)"
@@ -28,16 +29,17 @@ import { TransformNodeComponent } from './transform';
 
     <ng-template let-ctx edgeLabelHtml>
       @if (ctx.label.data.type === 'text') {
-        <div class="label-text">{{ ctx.label.data.text }}</div>
+        <div class="h-7 bg-card border border-border rounded-md px-2.5 flex items-center justify-center text-xs font-medium text-card-foreground shadow-sm">
+          {{ ctx.label.data.text }}
+        </div>
       }
 
       @if (ctx.label.data.type === 'delete') {
-        <div class="label-delete"
-        (keydown.space)="deleteEdge(ctx.edge)"
-        (keydown.enter)="deleteEdge(ctx.edge)"
-        (click)="deleteEdge(ctx.edge)"
-        tabindex="0">
-        >
+        <div class="w-7 h-7 bg-card border border-border rounded-full flex items-center justify-center cursor-pointer text-muted-foreground shadow-sm transition-all duration-150 hover:bg-destructive hover:border-destructive hover:text-white"
+          (keydown.space)="deleteEdge(ctx.edge)"
+          (keydown.enter)="deleteEdge(ctx.edge)"
+          (click)="deleteEdge(ctx.edge)"
+          tabindex="0">
           <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
             <path d="M9 3L3 9M3 3L9 9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
           </svg>
@@ -45,58 +47,14 @@ import { TransformNodeComponent } from './transform';
       }
     </ng-template>
 
-    <mini-map />
+    <!-- <mini-map /> -->
   </vflow>`,
   styles: [
     `
       :host {
         display: block;
-        width: 100vw;
-        height: 100vh;
-        --node-bg: #fafafa;
-        --node-border: #e4e4e7;
-        --accent-violet: #8b5cf6;
-        --accent-emerald: #10b981;
-        --accent-amber: #f59e0b;
-        --accent-slate: #64748b;
-        --text-primary: #18181b;
-        --text-muted: #71717a;
-      }
-
-      .label-text {
-        height: 28px;
-        background: var(--node-bg);
-        border: 1px solid var(--node-border);
-        border-radius: 6px;
-        padding: 0 10px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 12px;
-        font-weight: 500;
-        color: var(--text-primary);
-        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
-      }
-
-      .label-delete {
-        width: 28px;
-        height: 28px;
-        background: var(--node-bg);
-        border: 1px solid var(--node-border);
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        cursor: pointer;
-        color: var(--text-muted);
-        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
-        transition: all 0.15s ease;
-      }
-
-      .label-delete:hover {
-        background: #ef4444;
-        border-color: #ef4444;
-        color: white;
+        width: 100%;
+        height: 100%;
       }
 
       .animated-edge {
@@ -119,8 +77,15 @@ import { TransformNodeComponent } from './transform';
 })
 export class AllFeaturesDemoComponent {
   protected store = inject(FlowStoreService);
+  private theme = inject(ThemeService);
 
   protected vflow = viewChild.required(VflowComponent);
+
+  protected background = computed(() =>
+    this.theme.theme() === 'dark'
+      ? { type: 'dots' as const, backgroundColor: '#0a0a0a', color: '#2a2a2a' }
+      : { type: 'dots' as const, backgroundColor: '#fafafa', color: '#d4d4d4' }
+  );
 
   constructor() {
     effect(() => {
