@@ -7,10 +7,11 @@ import { NavMain } from '../../shared/sidebar/nav-main';
 import { NavProjects } from '../../shared/sidebar/nav-projects';
 import { NavSecondary } from '../../shared/sidebar/nav-secondary';
 import { NavUser } from '../../shared/sidebar/nav-user';
+import { ThemeToggle } from '../../shared/theme/theme-toggle';
 
 @Component({
 	selector: 'spartan-app-sidebar-inset',
-	imports: [HlmSidebarImports, NgIcon, NavMain, NavProjects, NavUser, NavSecondary],
+	imports: [HlmSidebarImports, NgIcon, NavMain, NavProjects, NavUser, NavSecondary, ThemeToggle],
 	providers: [provideIcons({ lucideCommand })],
 	changeDetection: ChangeDetectionStrategy.OnPush,
 	template: `
@@ -40,6 +41,7 @@ import { NavUser } from '../../shared/sidebar/nav-user';
 					<spartan-nav-secondary class="mt-auto" [items]="data.navSecondary" />
 				</hlm-sidebar-content>
 				<hlm-sidebar-footer>
+					<spartan-theme-toggle />
 					<spartan-nav-user [user]="data.user" />
 				</hlm-sidebar-footer>
 			</hlm-sidebar>
